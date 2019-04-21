@@ -9,13 +9,12 @@ class Entry{
 }
 
 class ToDo{
-
   constructor(){
     this.entries = JSON.parse(window.localStorage.getItem('entries')) || [];
 
     document.querySelector('#addButton').addEventListener('click', () => this.addEntry());
     document.querySelector("#saveButton").addEventListener('click', () => this.saveToFile());
-   
+
 
     this.render();
   }
@@ -51,7 +50,7 @@ class ToDo{
 
       removeTaskButton.addEventListener('click', ()=>{
         ul.removeChild(li);
-        this.todos = this.entries.slice(0, entryIndex).concat(this.entries.slice(entryIndex + 1, this.entries.length));
+        this.entries = this.entries.slice(0, entryIndex).concat(this.entries.slice(entryIndex + 1, this.entries.length));
         this.saveInLocalStorage();
       });
 
@@ -100,11 +99,8 @@ class ToDo{
     this.render();
   }
 
-let entries = new todos[];
-
   saveToFile(){
-    console.log("saveis");
-    $.post('server.php', {save: todos}).done(function(){
+    $.post('server.php', {save: entries}).done(function(){
       console.log('done');
     }).fail(function(){
       console.log('fail');
@@ -117,22 +113,22 @@ let entries = new todos[];
     window.localStorage.setItem('entries', JSON.stringify(this.entries));
   }
 }
+let todos = [];
 
-
+// $('#saveButton').on('click', ()=>saveToFile());
 $('#loadButton').on('click', ()=>render());
 
 function render(){
-  $('#entries').html("");
+  $('#todos').html("");
   $.get('database.txt', function(data){
     let content = JSON.parse(data).content;
 
-    content.forEach(function(entry, entryIndex){
-      console.log(entryIndex);
-      $('#entries').append('<ul><li>'+ entry.title+'</li><li>'+ entry.description +'</li><li>'+ entry.date +'</li></ul>');
+    content.forEach(function(todo, todoIndex){
+      console.log(todoIndex);
+      $('#todos').append('<ul><li>'+ todo.title+'</li><li>'+ todo.description +'</li><li>'+ todo.date +'</li></ul>');
     });
   });
 }
 
-const entry = new ToDo();
-
+const todo = new ToDo();
 
